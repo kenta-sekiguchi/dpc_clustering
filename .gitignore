@@ -1,0 +1,10 @@
+data/
+data_acc/
+data_chiba/
+faces/
+df_2d_time_after.csv
+df_2d_time_before.csv
+df_act_time_after.csv
+df_act_time_before.csv
+.ipynb_checkpoints/
+cleaner_2.ipynb
