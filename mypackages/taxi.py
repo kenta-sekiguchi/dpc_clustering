@@ -34,7 +34,8 @@ def return_with_trip_times(df_taxi):
     durations = (np.array(duration_drop) - np.array(duration_pickup))/float(60)
 
     #append durations of trips and speed in miles/hr to a new dataframe
-    new_frame = df_taxi[['passenger_count','pickup_longitude','pickup_latitude','dropoff_longitude','dropoff_latitude']]
+    new_frame = df_taxi.copy()
+    new_frame = new_frame[['passenger_count','pickup_longitude','pickup_latitude','dropoff_longitude','dropoff_latitude']]
     
     new_frame['lpep_pickup_datetime'] = df_taxi['lpep_pickup_datetime'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%f'))
     new_frame['lpep_dropoff_datetime'] = df_taxi['lpep_dropoff_datetime'].apply(lambda x: datetime.datetime.strptime(x, '%Y-%m-%dT%H:%M:%S.%f'))
@@ -42,6 +43,23 @@ def return_with_trip_times(df_taxi):
     new_frame['pickup_times_unix'] = duration_pickup
 
     
+    return new_frame
+
+def return_with_trip_times_2(df_taxi):
+    '''
+    新たなデータフレームを返す関数
+    ダウンロードしたデータver
+    '''
+    
+    df_taxi['lpep_pickup_datetime'] = pd.to_datetime(df_taxi['lpep_pickup_datetime'])
+    df_taxi['lpep_dropoff_datetime'] = pd.to_datetime(df_taxi['lpep_dropoff_datetime'])
+
+    new_frame = df_taxi.copy()
+    new_frame = new_frame[['passenger_count','pickup_longitude','pickup_latitude','dropoff_longitude','dropoff_latitude', 
+                           'lpep_pickup_datetime', 'lpep_dropoff_datetime']]
+        
+    new_frame['pickup_times_unix'] = new_frame['lpep_pickup_datetime'].apply(lambda x: x.timestamp())
+
     return new_frame
 
 def return_unq_pickup_bins(frame, cluster_num):
